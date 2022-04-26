@@ -34,6 +34,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
@@ -45,7 +46,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -63,27 +63,6 @@ flutter:
 
   assets:
     - images/profil.jpg
-
-  fonts:
-    - family: Satoshi-Regular
-      fonts:
-        - asset: fonts/Satoshi/Satoshi-Regular.otf
-
-    - family: Satoshi-Medium
-      fonts:
-        - asset: fonts/Satoshi/Satoshi-Medium.otf
-
-    - family: Satoshi-Light
-      fonts:
-        - asset: fonts/Satoshi/Satoshi-Light.otf
-
-    - family: Satoshi-Bold
-      fonts:
-        - asset: fonts/Satoshi/Satoshi-Bold.otf
-
-    - family: Satoshi-Black
-      fonts:
-        - asset: fonts/Satoshi/Satoshi-Black.otf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -108,5 +87,18 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: fonts\Satoshi\Satoshi-Light.otf
+          weight: 300
+        - asset: fonts\Satoshi\Satoshi-Regular.otf
+          weight: 400
+        - asset: fonts\Satoshi\Satoshi-Medium.otf
+          weight: 500
+        - asset: fonts\Satoshi\Satoshi-Bold.otf
+          weight: 700
+        - asset: fonts\Satoshi\Satoshi-Black.otf
+          weight: 900
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

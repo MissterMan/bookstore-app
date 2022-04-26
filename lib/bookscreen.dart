@@ -1,9 +1,10 @@
+import 'package:bookstore/model/databook.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:bookstore/main.dart';
 
 class BookScreen extends StatelessWidget {
-  const BookScreen({Key? key}) : super(key: key);
+  final DataBook book;
+
+  BookScreen({required this.book});
 
   @override
   Widget build(BuildContext context) {
@@ -23,25 +24,22 @@ class BookScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Keruntuhan Gondolin (The Fall of Gondolin)",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Satoshi-Bold",
-                    fontSize: 16),
+                book.namaBuku,
+                style: TextStyle(color: Colors.black, fontSize: 16),
               ),
               Text(
-                "J.R.R Tolkien",
+                book.authorBook,
                 style: TextStyle(color: Colors.black54, fontSize: 14),
               )
             ],
           ),
           elevation: 0,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: FavButton(),
-            ),
-          ],
+          // actions: [
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 20),
+          //     child: FavButton(),
+          //   ),
+          // ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -65,7 +63,7 @@ class BookScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(7),
                         child: Image.network(
-                          "https://ebooks.gramedia.com/ebook-covers/69429/image_highres/BLK_KGTFOG2021348379.jpg",
+                          book.imageUrl,
                           height: 200,
                         ),
                       ),
@@ -79,27 +77,28 @@ class BookScreen extends StatelessWidget {
                         children: [
                           const Text(
                             "Rp. 116.250",
-                            style: TextStyle(
-                                fontFamily: 'Satoshi-Black',
-                                color: Colors.black,
-                                fontSize: 18),
+                            style: TextStyle(color: Colors.black, fontSize: 18),
                           ),
                           SizedBox(
                             height: 15,
                           ),
-                          const Text(
-                              "Keruntuhan Gondolin (The Fall of Gondolin)",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'Satoshi-Bold', fontSize: 18)),
+                          Text(
+                            book.namaBuku,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
-                          const Text("J.R.R Tolkien",
-                              style: TextStyle(
-                                  fontFamily: 'Satoshi-Bold',
-                                  color: Colors.black45,
-                                  fontSize: 14)),
+                          Text(
+                            book.authorBook,
+                            style: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 14,
+                            ),
+                          ),
                           SizedBox(
                             height: 10,
                           ),
@@ -138,9 +137,7 @@ class BookScreen extends StatelessWidget {
                                 Text(
                                   "4.1",
                                   style: TextStyle(
-                                      fontFamily: 'Satoshi-Medium',
-                                      color: Colors.black,
-                                      fontSize: 14),
+                                      color: Colors.black, fontSize: 14),
                                 ),
                                 SizedBox(
                                   width: 3,
@@ -148,9 +145,7 @@ class BookScreen extends StatelessWidget {
                                 Text(
                                   "(8.483)",
                                   style: TextStyle(
-                                      fontFamily: 'Satoshi-Medium',
-                                      color: Colors.black45,
-                                      fontSize: 14),
+                                      color: Colors.black45, fontSize: 14),
                                 ),
                               ],
                             ),
@@ -182,7 +177,7 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "304",
-                                  style: TextStyle(fontFamily: "Satoshi-Black"),
+                                  style: TextStyle(),
                                 ),
                                 Text(
                                   "Pages",
@@ -210,7 +205,7 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "8.483",
-                                  style: TextStyle(fontFamily: "Satoshi-Black"),
+                                  style: TextStyle(),
                                 ),
                                 Text(
                                   "Ratings",
@@ -238,7 +233,7 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "968",
-                                  style: TextStyle(fontFamily: "Satoshi-Black"),
+                                  style: TextStyle(),
                                 ),
                                 Text(
                                   "Reviews",
@@ -266,7 +261,7 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "English",
-                                  style: TextStyle(fontFamily: "Satoshi-Black"),
+                                  style: TextStyle(),
                                 ),
                                 Text(
                                   "Language",
@@ -292,7 +287,8 @@ class BookScreen extends StatelessWidget {
                             Text(
                               "Description",
                               style: TextStyle(
-                                  fontFamily: "Satoshi-Black", fontSize: 20),
+                                fontSize: 20,
+                              ),
                             ),
                             SizedBox(
                               height: 20,
@@ -309,7 +305,6 @@ class BookScreen extends StatelessWidget {
                                       Text(
                                         "Date Released",
                                         style: TextStyle(
-                                            fontFamily: "Satoshi-Bold",
                                             color: Colors.black45,
                                             fontSize: 12),
                                       ),
@@ -318,9 +313,7 @@ class BookScreen extends StatelessWidget {
                                       ),
                                       Text(
                                         "August 30th 2018",
-                                        style: TextStyle(
-                                            fontFamily: "Satoshi-Bold",
-                                            fontSize: 16),
+                                        style: TextStyle(fontSize: 16),
                                       )
                                     ],
                                   ),
@@ -331,7 +324,6 @@ class BookScreen extends StatelessWidget {
                                       Text(
                                         "Publisher",
                                         style: TextStyle(
-                                            fontFamily: "Satoshi-Bold",
                                             color: Colors.black45,
                                             fontSize: 12),
                                       ),
@@ -340,9 +332,7 @@ class BookScreen extends StatelessWidget {
                                       ),
                                       Text(
                                         "Houghton Mifflin Harcourt",
-                                        style: TextStyle(
-                                            fontFamily: "Satoshi-Bold",
-                                            fontSize: 16),
+                                        style: TextStyle(fontSize: 16),
                                       )
                                     ],
                                   ),
