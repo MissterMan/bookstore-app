@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import "package:shared_preferences/shared_preferences.dart";
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -11,70 +13,115 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
-  String _nama = "";
-  bool _isLogin = false;
-
-  loginFunc() async {
-    if (usersCheck()) {
-      storeToLocal(_username.text, _password.text, _isLogin);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) {
-          return HomePage(
-            nama: _nama,
-          );
-        }),
-      );
-    } else {
-      print("Gagal Login");
-    }
-  }
-
-  storeToLocal(String user, String pass, bool status) async {
-    final storeLocal = await SharedPreferences.getInstance();
-    await storeLocal.setString("username", user);
-    await storeLocal.setString("password", pass);
-    await storeLocal.setBool("isLogin", true);
-    await storeLocal.setString("nama", _nama);
-  }
-
-  bool usersCheck() {
-    for (Map<String, dynamic> item in DummyData.data) {
-      if (item["username"] == _username.text.toString() &&
-          item['password'] == _password.text.toString()) {
-        _isLogin = true;
-        _nama = item['nama'];
-        return true;
-      }
-    }
-    return false;
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          TextField(
-            controller: _username,
-            decoration: InputDecoration(
-              hintText: "Username",
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              "Welcome,",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
-          TextField(
-            controller: _password,
-            decoration: InputDecoration(
-              hintText: "Password",
+            Text(
+              "to BookApps 📚",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              loginFunc();
-            },
-            child: Text('Submit'),
-          )
-        ],
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black45.withOpacity(0.15),
+                    blurRadius: 15.0,
+                    spreadRadius: 0,
+                    offset: Offset(0, 5),
+                  )
+                ],
+              ),
+              child: TextField(
+                controller: _username,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  hintText: "Username",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black45.withOpacity(0.15),
+                    blurRadius: 15.0,
+                    spreadRadius: 0,
+                    offset: Offset(0, 5),
+                  )
+                ],
+              ),
+              child: TextField(
+                controller: _password,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  hintText: "Password",
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Color(0xFFBF4126))),
+                onPressed: () {
+                  // loginFunc();
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

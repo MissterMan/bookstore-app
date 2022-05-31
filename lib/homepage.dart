@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Welcome,",
               style: TextStyle(
                   color: Colors.black,
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
             ),
             Text(
               nama,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
@@ -102,7 +102,7 @@ class HomePage extends StatelessWidget {
                         ),
                         child: SizedBox(
                           height: 200,
-                          width: 130,
+                          width: 128,
                           child: Stack(
                             children: <Widget>[
                               ClipRRect(
@@ -151,7 +151,7 @@ class HomePage extends StatelessWidget {
                                             books.authorBook,
                                             style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                             ),
                                           ),
                                         ],
@@ -201,10 +201,11 @@ class NewBooks extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 0,
-                    blurRadius: 7,
-                    offset: const Offset(0, 0))
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 0,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0),
+                )
               ]),
           child: GestureDetector(
             onTap: () {

@@ -34,7 +34,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_fonts: ^2.3.1
-  shared_preferences:
+  shared_preferences: ^2.0.13
+  firebase_core: ^1.17.1
+  firebase_auth: ^3.3.19
+  firebase_messaging: ^11.4.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +67,20 @@ flutter:
   assets:
     - images/profil.jpg
 
+  fonts:
+    - family: Satoshi
+      fonts:
+        - asset: fonts\Satoshi\Satoshi-Light.otf
+          weight: 300
+        - asset: fonts\Satoshi\Satoshi-Regular.otf
+          weight: 400
+        - asset: fonts\Satoshi\Satoshi-Medium.otf
+          weight: 500
+        - asset: fonts\Satoshi\Satoshi-Bold.otf
+          weight: 700
+        - asset: fonts\Satoshi\Satoshi-Black.otf
+          weight: 900
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -87,18 +104,5 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  fonts:
-    - family: Satoshi
-      fonts:
-        - asset: fonts\Satoshi\Satoshi-Light.otf
-          weight: 300
-        - asset: fonts\Satoshi\Satoshi-Regular.otf
-          weight: 400
-        - asset: fonts\Satoshi\Satoshi-Medium.otf
-          weight: 500
-        - asset: fonts\Satoshi\Satoshi-Bold.otf
-          weight: 700
-        - asset: fonts\Satoshi\Satoshi-Black.otf
-          weight: 900
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
