@@ -1,28 +1,22 @@
-import 'package:bookstore/createuser.dart';
-import 'package:bookstore/homepage.dart';
 import 'package:bookstore/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+import 'homepage.dart';
+
+class CreateUser extends StatefulWidget {
+  const CreateUser({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<CreateUser> createState() => _CreateUserState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _CreateUserState extends State<CreateUser> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,20 +24,13 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              "Welcome,",
+              "Create New Account",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            const Text(
-              "to BookApps 📚",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w900,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(
@@ -68,9 +55,14 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     child: TextFormField(
+                      // onChanged: (value) {
+                      //   setState(() {
+                      //     _email = value.trim();
+                      //   });
+                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Email shouldn't empty";
+                          return "Email is requried";
                         }
                         return null;
                       },
@@ -108,13 +100,21 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     child: TextFormField(
+                      // onChanged: (value) {
+                      //   setState(() {
+                      //     _email = value.trim();
+                      //   });
+                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Password shouldn't empty";
+                          return "Password is requried";
+                        } else if (value.length < 6) {
+                          return "Password should be at least 6 characters";
                         }
                         return null;
                       },
                       controller: _password,
+                      keyboardType: TextInputType.emailAddress,
                       obscureText: true,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -146,92 +146,30 @@ class _LoginPageState extends State<LoginPage> {
                         AuthenticationUser authenticationUser =
                             AuthenticationUser();
                         if (_formKey.currentState!.validate()) {
-                          final user = await authenticationUser.logIn(
+                          await authenticationUser.register(
                               email: _email.text, password: _password.text);
-                          if (user == _email.text) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    "Succsessfully signed in " + _email.text),
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(
+                                nama: _email.text,
+                                profileImage: "",
                               ),
-                            );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => HomePage(
-                                  nama: _email.text,
-                                  profileImage: "",
-                                ),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(user!),
-                              ),
-                            );
-                          }
+                            ),
+                          );
                         }
                       },
                       child: const Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
+                          fontWeight: FontWeight.w900,
                           fontSize: 16,
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: () async {
-                  AuthenticationUser authenticationUser = AuthenticationUser();
-                  final user = await authenticationUser.googleSignIn();
-                  if (user != null) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(
-                            nama: auth.currentUser?.displayName ?? "",
-                            profileImage: auth.currentUser?.photoURL ?? ""),
-                      ),
-                    );
-                  }
-                },
-                child: const Text(
-                  'Sign In with Google',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CreateUser(),
-                  ),
-                );
-              },
-              child: const Text(
-                "Don't Have Account?",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Color(0xFFBF4126),
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            )
           ],
         ),
       ),

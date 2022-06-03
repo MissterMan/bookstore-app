@@ -1,15 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/model/databook.dart';
-import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bookscreen.dart';
 import 'loginpage.dart';
 
 class HomePage extends StatelessWidget {
   final String nama;
+  final String profileImage;
+  final auth = FirebaseAuth.instance;
 
-  HomePage({required this.nama});
+  HomePage({required this.nama, required this.profileImage});
 
   @override
   Widget build(BuildContext context) {
@@ -39,25 +40,26 @@ class HomePage extends StatelessWidget {
           ],
         ),
         actions: [
-          Container(
-            child: IconButton(
-              onPressed: () async {
-                SharedPreferences storeLocal =
-                    await SharedPreferences.getInstance();
-                storeLocal.clear();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  }),
-                );
-              },
-              icon: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset("./images/profil.jpg"),
-              ),
-              iconSize: 40,
+          IconButton(
+            onPressed: () async {
+              await auth.signOut();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Signed Out"),
+                ),
+              );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const LoginPage();
+                }),
+              );
+            },
+            icon: ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.asset("./images/profil.jpg"),
             ),
+            iconSize: 40,
           )
         ],
       ),
@@ -149,7 +151,7 @@ class HomePage extends StatelessWidget {
                                           ),
                                           Text(
                                             books.authorBook,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 12,
                                             ),
@@ -175,7 +177,7 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              NewBooks()
+              const NewBooks()
             ],
           ),
         ),
@@ -234,7 +236,7 @@ class NewBooks extends StatelessWidget {
                   const SizedBox(
                     width: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +256,7 @@ class NewBooks extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
@@ -306,7 +308,7 @@ class NewBooks extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         // Align(

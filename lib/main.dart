@@ -13,12 +13,10 @@ Future<void> main() async {
     MaterialApp(
       theme: ThemeData(
         fontFamily: 'Satoshi',
-        splashColor: Color(0xFFBF4126),
-        primaryColor: Color(0xFFBF4126),
+        splashColor: const Color(0xFFBF4126),
+        primaryColor: const Color(0xFFBF4126),
       ),
-      home: HomePage(
-        nama: "Lorem",
-      ),
+      home: LoginPage(),
     ),
   );
 }
@@ -30,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Satoshi'),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
