@@ -1,5 +1,4 @@
-import 'package:bookstore/homepage.dart';
-import 'package:bookstore/loginpage.dart';
+import 'package:bookstore/screen/loginpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';

@@ -1,5 +1,5 @@
-import 'package:bookstore/createuser.dart';
-import 'package:bookstore/homepage.dart';
+import 'package:bookstore/screen/createuser.dart';
+import 'package:bookstore/screen/homepage.dart';
 import 'package:bookstore/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
