@@ -17,12 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final _password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

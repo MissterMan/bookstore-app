@@ -55,11 +55,6 @@ class _CreateUserState extends State<CreateUser> {
                       ],
                     ),
                     child: TextFormField(
-                      // onChanged: (value) {
-                      //   setState(() {
-                      //     _email = value.trim();
-                      //   });
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Email is requried";
@@ -100,11 +95,6 @@ class _CreateUserState extends State<CreateUser> {
                       ],
                     ),
                     child: TextFormField(
-                      // onChanged: (value) {
-                      //   setState(() {
-                      //     _email = value.trim();
-                      //   });
-                      // },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Password is requried";

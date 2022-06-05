@@ -1,16 +1,59 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/model/databook.dart';
 
+import '../services/notification_services.dart';
 import 'bookscreen.dart';
 import 'loginpage.dart';
 
-class HomePage extends StatelessWidget {
+// Future<void> backgroundHandler(RemoteMessage message) async {
+//   print(message.data.toString());
+//   print(message.notification!.title);
+// }
+
+class HomePage extends StatefulWidget {
   final String nama;
   final String profileImage;
-  final auth = FirebaseAuth.instance;
 
   HomePage({required this.nama, required this.profileImage});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      final routeMessage = message?.data["route"];
+      if (routeMessage != null) {
+        Navigator.of(context).pushNamed(routeMessage);
+        print(routeMessage);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final routeMessage = message.data["route"];
+      if (routeMessage != null) {
+        Navigator.of(context).pushNamed(routeMessage);
+        print(routeMessage);
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        print(message.notification!.title);
+        print(message.notification!.body);
+        print("HELOOO");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +73,7 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w700),
             ),
             Text(
-              nama,
+              widget.nama,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
