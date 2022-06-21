@@ -1,8 +1,13 @@
 import 'package:bookstore/screen/favourite.dart';
+import 'package:bookstore/screen/homepage.dart';
 import 'package:bookstore/screen/loginpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'model/bookdata_provider.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
@@ -28,16 +33,28 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Satoshi',
-        splashColor: const Color(0xFFBF4126),
-        primaryColor: const Color(0xFFBF4126),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: ((context) => BookProvider()),
+        ),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          fontFamily: 'Satoshi',
+          splashColor: const Color(0xFFBF4126),
+          primaryColor: const Color(0xFFBF4126),
+        ),
+        home: FirebaseAuth.instance.currentUser == null
+            ? LoginPage()
+            : HomePage(
+                nama: FirebaseAuth.instance.currentUser?.displayName ?? "",
+                profileImage:
+                    FirebaseAuth.instance.currentUser?.photoURL ?? ""),
+        routes: {
+          'favbooks': ((_) => FavouriteBooks()),
+        },
       ),
-      home: const LoginPage(),
-      routes: {
-        'favbooks': ((_) => FavouriteBooks()),
-      },
     );
   }
 }

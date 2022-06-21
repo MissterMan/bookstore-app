@@ -1,4 +1,5 @@
 import 'package:bookstore/model/databook.dart';
+import 'package:bookstore/screen/buybook.dart';
 import 'package:flutter/material.dart';
 
 class BookScreen extends StatelessWidget {
@@ -71,9 +72,9 @@ class BookScreen extends StatelessWidget {
                       width: 300,
                       child: Column(
                         children: [
-                          const Text(
-                            "Rp. 116.250",
-                            style: TextStyle(
+                          Text(
+                            'Rp. ${book.bookPrice}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -293,8 +294,42 @@ class BookScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xFFBF4126),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => BuyBook(
+                                  imageUrl: book.imageUrl,
+                                  bookName: book.namaBuku,
+                                  bookPrice: book.bookPrice,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Buy ${book.namaBuku}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
                         width: double.infinity,
                         child: Column(

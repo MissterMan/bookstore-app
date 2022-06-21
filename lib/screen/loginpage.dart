@@ -69,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         return null;
                       },
+                      autofillHints: [AutofillHints.email],
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
@@ -150,10 +151,12 @@ class _LoginPageState extends State<LoginPage> {
                                     "Succsessfully signed in " + _email.text),
                               ),
                             );
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (context) => HomePage(
-                                  nama: _email.text,
+                                  nama: FirebaseAuth
+                                          .instance.currentUser?.displayName ??
+                                      "",
                                   profileImage: "",
                                 ),
                               ),
@@ -192,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                   AuthenticationUser authenticationUser = AuthenticationUser();
                   final user = await authenticationUser.googleSignIn();
                   if (user != null) {
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => HomePage(
                             nama: auth.currentUser?.displayName ?? "",

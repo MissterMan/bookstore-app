@@ -14,6 +14,7 @@ class CreateUser extends StatefulWidget {
 class _CreateUserState extends State<CreateUser> {
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _userName = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final auth = FirebaseAuth.instance;
 
@@ -104,7 +105,7 @@ class _CreateUserState extends State<CreateUser> {
                         return null;
                       },
                       controller: _password,
-                      keyboardType: TextInputType.emailAddress,
+                      keyboardType: TextInputType.text,
                       obscureText: true,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -124,6 +125,46 @@ class _CreateUserState extends State<CreateUser> {
                   const SizedBox(
                     height: 30,
                   ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black45.withOpacity(0.15),
+                          blurRadius: 15.0,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 5),
+                        )
+                      ],
+                    ),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Password is requried";
+                        }
+                        return null;
+                      },
+                      controller: _userName,
+                      keyboardType: TextInputType.name,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        hintText: "Username",
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   SizedBox(
                     height: 50,
                     child: ElevatedButton(
@@ -137,11 +178,13 @@ class _CreateUserState extends State<CreateUser> {
                             AuthenticationUser();
                         if (_formKey.currentState!.validate()) {
                           await authenticationUser.register(
-                              email: _email.text, password: _password.text);
+                              email: _email.text,
+                              password: _password.text,
+                              userName: _userName.text);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => HomePage(
-                                nama: _email.text,
+                                nama: _userName.text,
                                 profileImage: "",
                               ),
                             ),

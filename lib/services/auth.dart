@@ -22,8 +22,8 @@ class AuthenticationUser {
           .user!;
       return email;
     } on FirebaseAuthException catch (error) {
-      print(error.code);
-      print(error.message);
+      // print(error.code);
+      // print(error.message);
       switch (error.code) {
         case "invalid-email":
           errorMessage = "Your email address appears to be malformed.";
@@ -45,13 +45,16 @@ class AuthenticationUser {
   }
 
   Future<String?> register(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String userName}) async {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      return email;
+      await auth.currentUser?.updateDisplayName(userName);
+      return userName;
     } on FirebaseAuthException catch (error) {
-      print(error.message);
+      // print(error.message);
       return error.message;
     }
   }

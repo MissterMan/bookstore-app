@@ -1,3 +1,4 @@
+import 'package:bookstore/screen/cartscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,6 @@ class _HomePageState extends State<HomePage> {
       if (message.notification != null) {
         print(message.notification!.title);
         print(message.notification!.body);
-        print("HELOOO");
       }
     });
   }
@@ -84,6 +84,20 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return CartScreen();
+                  }),
+                ),
+              );
+            },
+            icon: Icon(Icons.shopping_cart),
+            color: Colors.black,
+          ),
+          IconButton(
             onPressed: () async {
               await auth.signOut();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -103,7 +117,7 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset("./images/profil.jpg"),
             ),
             iconSize: 40,
-          )
+          ),
         ],
       ),
       body: SingleChildScrollView(
