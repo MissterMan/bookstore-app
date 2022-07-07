@@ -1,10 +1,18 @@
+import 'package:bookstore/model/news_model.dart';
+import 'package:bookstore/network/network_enums.dart';
+import 'package:bookstore/network/network_helper.dart';
+import 'package:bookstore/network/network_service.dart';
+import 'package:bookstore/network/query_params.dart';
 import 'package:bookstore/screen/cartscreen.dart';
+import 'package:bookstore/screen/newspage.dart';
+import 'package:bookstore/static/static_values.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/model/databook.dart';
 
 import '../services/notification_services.dart';
+import '../widget/NewsWidget.dart';
 import 'bookscreen.dart';
 import 'loginpage.dart';
 
@@ -98,6 +106,22 @@ class _HomePageState extends State<HomePage> {
             color: Colors.black,
           ),
           IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return NewsScreen();
+                  }),
+                ),
+              );
+            },
+            icon: Icon(Icons.newspaper),
+            color: Colors.black,
+          ),
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            color: Colors.black,
             onPressed: () async {
               await auth.signOut();
               ScaffoldMessenger.of(context).showSnackBar(
@@ -112,11 +136,11 @@ class _HomePageState extends State<HomePage> {
                 }),
               );
             },
-            icon: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: Image.asset("./images/profil.jpg"),
-            ),
-            iconSize: 40,
+            // icon: ClipRRect(
+            //   borderRadius: BorderRadius.circular(100),
+            //   child: Image.asset("./images/profil.jpg"),
+            // ),
+            // iconSize: 40,
           ),
         ],
       ),
@@ -234,7 +258,10 @@ class _HomePageState extends State<HomePage> {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              const NewBooks()
+              const NewBooks(),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
