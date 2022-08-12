@@ -1,4 +1,5 @@
 import 'package:bookstore/model/databook.dart';
+import 'package:bookstore/screen/buybook.dart';
 import 'package:flutter/material.dart';
 
 class BookScreen extends StatelessWidget {
@@ -34,12 +35,6 @@ class BookScreen extends StatelessWidget {
             ],
           ),
           elevation: 0,
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: 20),
-          //     child: FavButton(),
-          //   ),
-          // ],
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -53,13 +48,15 @@ class BookScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.4),
-                            spreadRadius: 0,
-                            blurRadius: 10,
-                            offset: Offset(0, 3))
-                      ]),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              spreadRadius: 0,
+                              blurRadius: 10,
+                              offset: Offset(0, 3))
+                        ],
+                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(7),
                         child: Image.network(
@@ -75,9 +72,13 @@ class BookScreen extends StatelessWidget {
                       width: 300,
                       child: Column(
                         children: [
-                          const Text(
-                            "Rp. 116.250",
-                            style: TextStyle(color: Colors.black, fontSize: 18),
+                          Text(
+                            'Rp. ${book.bookPrice}',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           SizedBox(
                             height: 15,
@@ -86,7 +87,8 @@ class BookScreen extends StatelessWidget {
                             book.namaBuku,
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                           SizedBox(
@@ -96,7 +98,8 @@ class BookScreen extends StatelessWidget {
                             book.authorBook,
                             style: TextStyle(
                               color: Colors.black45,
-                              fontSize: 14,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           SizedBox(
@@ -137,7 +140,10 @@ class BookScreen extends StatelessWidget {
                                 Text(
                                   "4.1",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 14),
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 SizedBox(
                                   width: 3,
@@ -145,7 +151,10 @@ class BookScreen extends StatelessWidget {
                                 Text(
                                   "(8.483)",
                                   style: TextStyle(
-                                      color: Colors.black45, fontSize: 14),
+                                    color: Colors.black45,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
@@ -177,7 +186,9 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "304",
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   "Pages",
@@ -205,7 +216,9 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "8.483",
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   "Ratings",
@@ -233,7 +246,9 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "968",
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   "Reviews",
@@ -261,7 +276,9 @@ class BookScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   "English",
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                                 Text(
                                   "Language",
@@ -277,74 +294,114 @@ class BookScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xFFBF4126),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => BuyBook(
+                                  imageUrl: book.imageUrl,
+                                  bookName: book.namaBuku,
+                                  bookPrice: book.bookPrice,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Buy ${book.namaBuku}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
                         width: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               "Description",
                               style: TextStyle(
                                 fontSize: 20,
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Date Released",
-                                        style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Date Released",
+                                      style: TextStyle(
+                                          color: Colors.black45,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "August 30th 2018",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
                                       ),
-                                      SizedBox(
-                                        height: 5,
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: const [
+                                    Text(
+                                      "Publisher",
+                                      style: TextStyle(
+                                        color: Colors.black45,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        "August 30th 2018",
-                                        style: TextStyle(fontSize: 16),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Publisher",
-                                        style: TextStyle(
-                                            color: Colors.black45,
-                                            fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Houghton Mifflin Harcourt",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
                                       ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "Houghton Mifflin Harcourt",
-                                        style: TextStyle(fontSize: 16),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-                            Text(
+                            const Text(
                               "In the Tale of The Fall of Gondolin are two of the greatest powers in the world. There is Morgoth of the uttermost evil, unseen in this story but ruling over a vast military power from his fortress of Angband. Deeply opposed to Morgoth is Ulmo, second in might only to Manwë, chief of the Valar: he is called the Lord of Waters, of all seas, lakes, and rivers under the sky. But he works in secret in Middle-earth to support the Noldor, the kindred of the Elves among whom were numbered Húrin and Túrin Turambar.",
                               textAlign: TextAlign.justify,
+                              style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),

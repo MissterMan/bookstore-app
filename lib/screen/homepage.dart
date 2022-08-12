@@ -1,15 +1,67 @@
+import 'package:bookstore/model/news_model.dart';
+import 'package:bookstore/network/network_enums.dart';
+import 'package:bookstore/network/network_helper.dart';
+import 'package:bookstore/network/network_service.dart';
+import 'package:bookstore/network/query_params.dart';
+import 'package:bookstore/screen/cartscreen.dart';
+import 'package:bookstore/screen/newspage.dart';
+import 'package:bookstore/static/static_values.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:bookstore/model/databook.dart';
-import 'package:flutter/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/notification_services.dart';
+import '../widget/NewsWidget.dart';
 import 'bookscreen.dart';
 import 'loginpage.dart';
 
-class HomePage extends StatelessWidget {
-  final String nama;
+// Future<void> backgroundHandler(RemoteMessage message) async {
+//   print(message.data.toString());
+//   print(message.notification!.title);
+// }
 
-  HomePage({required this.nama});
+class HomePage extends StatefulWidget {
+  final String nama;
+  final String profileImage;
+
+  HomePage({required this.nama, required this.profileImage});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      final routeMessage = message?.data["route"];
+      if (routeMessage != null) {
+        Navigator.of(context).pushNamed(routeMessage);
+        print(routeMessage);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      final routeMessage = message.data["route"];
+      if (routeMessage != null) {
+        Navigator.of(context).pushNamed(routeMessage);
+        print(routeMessage);
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (message.notification != null) {
+        print(message.notification!.title);
+        print(message.notification!.body);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +73,7 @@ class HomePage extends StatelessWidget {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Welcome,",
               style: TextStyle(
                   color: Colors.black,
@@ -29,8 +81,8 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w700),
             ),
             Text(
-              nama,
-              style: TextStyle(
+              widget.nama,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
@@ -39,26 +91,57 @@ class HomePage extends StatelessWidget {
           ],
         ),
         actions: [
-          Container(
-            child: IconButton(
-              onPressed: () async {
-                SharedPreferences storeLocal =
-                    await SharedPreferences.getInstance();
-                storeLocal.clear();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return CartScreen();
                   }),
-                );
-              },
-              icon: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset("./images/profil.jpg"),
-              ),
-              iconSize: 40,
-            ),
-          )
+                ),
+              );
+            },
+            icon: Icon(Icons.shopping_cart),
+            color: Colors.black,
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) {
+                    return NewsScreen();
+                  }),
+                ),
+              );
+            },
+            icon: Icon(Icons.newspaper),
+            color: Colors.black,
+          ),
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            color: Colors.black,
+            onPressed: () async {
+              await auth.signOut();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Signed Out"),
+                ),
+              );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return const LoginPage();
+                }),
+              );
+            },
+            // icon: ClipRRect(
+            //   borderRadius: BorderRadius.circular(100),
+            //   child: Image.asset("./images/profil.jpg"),
+            // ),
+            // iconSize: 40,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -102,7 +185,7 @@ class HomePage extends StatelessWidget {
                         ),
                         child: SizedBox(
                           height: 200,
-                          width: 130,
+                          width: 128,
                           child: Stack(
                             children: <Widget>[
                               ClipRRect(
@@ -149,9 +232,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                           Text(
                                             books.authorBook,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Colors.white,
-                                              fontSize: 10,
+                                              fontSize: 12,
                                             ),
                                           ),
                                         ],
@@ -175,7 +258,10 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
-              NewBooks()
+              const NewBooks(),
+              SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),
@@ -201,10 +287,11 @@ class NewBooks extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 0,
-                    blurRadius: 7,
-                    offset: const Offset(0, 0))
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 0,
+                  blurRadius: 7,
+                  offset: const Offset(0, 0),
+                )
               ]),
           child: GestureDetector(
             onTap: () {
@@ -233,7 +320,7 @@ class NewBooks extends StatelessWidget {
                   const SizedBox(
                     width: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: 200,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,7 +340,7 @@ class NewBooks extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
@@ -305,7 +392,7 @@ class NewBooks extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         // Align(
